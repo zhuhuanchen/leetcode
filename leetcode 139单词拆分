@@ -1,0 +1,111 @@
+##表示答案没有看懂
+
+#include "vector"
+#include <iostream>
+#include <unordered_set>
+
+using namespace std;
+
+class Solution {
+public:
+    bool wordBreak(string s, vector<string>& wordDict) {
+        auto wordDictSet = unordered_set<string> ();
+        for (auto word: wordDict) {
+            wordDictSet.insert(word);
+        }
+
+        auto dp = vector <bool> (s.size() + 1);
+        for(vector <bool>::const_iterator it=dp.begin();it<dp.end();it++){
+            //cout<<"it:"<<*it<<endl;
+        }
+        dp[0] = true;
+        for (int i = 1; i <= s.size(); ++i) {
+            for (int j = 0; j < i; ++j) {
+                //cout<<"dp[j]:"<<dp[j]<<endl;
+                //cout<<"wordDictSet.find(s.substr(j, i - j)):" << wordDictSet.find(s.substr(j, i - j))<<endl;
+                cout<<"j="<<j<<",i="<<i<<",i-j="<<i-j<<" ";
+                cout<<"s.substr(j, i - j):"<<s.substr(j, i - j)<<endl;
+                if (dp[j] && wordDictSet.find(s.substr(j, i - j)) != wordDictSet.end()) {
+
+                    dp[i] = true;
+                    break;
+                }
+            }
+        }
+
+        for(vector <bool>::const_iterator it=dp.begin();it<dp.end();it++){
+            cout<<"第二次it:"<<*it<<endl;
+            }
+
+        return dp[s.size()];
+    }
+};
+
+
+
+/* 自己的代码一大堆，没有解决问题
+class Solution_zhc {
+public:
+    bool wordBreak(string s, vector<string>& wordDict) {
+        int j=0;
+        cout << "s.size():"<<s.size() << endl;
+        cout<<"j:"<<j<<endl;
+
+        int min_num=20; //记录最小值
+        for (vector<string>::const_iterator it = wordDict.begin(); it != wordDict.end(); ++it) {
+            if(min_num>(*it).size()) min_num=(*it).size();
+        }
+        cout<<"min_num:"<<min_num<<endl;
+
+        while(j < s.size()){
+            int flag=0;
+            cout<<"开始判断"<<endl;
+            cout << "s.size():"<<s.size() << endl;
+            cout<<"j:"<<j<<endl;
+            for (vector<string>::const_iterator it = wordDict.begin(); it != wordDict.end(); ++it) {
+                cout <<"(*it).size()"<<(*it).size()<<":\n"<<"s.substr(0,(*it).size()):"<<s.substr(j,(*it).size()) << endl;
+                cout<<"*it:"<<*it<<endl;
+                if(s.substr(j,(*it).size())==*it){
+                    j=j+(*it).size();
+                    cout<<"j:"<<j<<endl;
+                    flag=1;
+                    break;
+                }
+                //return false;
+            }
+            //return false;
+            if(j==s.size()-min_num){
+                return  false;
+            }
+        }
+        if(j=s.size()) return true;
+        else return false;
+
+    }
+};
+
+*/
+
+
+
+
+
+
+int main() {
+    string s="leetcode";
+    vector<string> wordDict;
+    wordDict.push_back("code");
+    wordDict.push_back("leet");
+
+    string str2 = s.substr(2,3);
+//    cout << str2 << endl;
+
+    Solution solution;
+    cout<<"结果:"<<solution.wordBreak(s,wordDict)<<endl;
+
+
+
+
+    return 0;
+}
+
